@@ -71,99 +71,43 @@ st.write(
     """
 )
 
-
-
-# =====================================================
-# ABOUT THE SYSTEM
-# =====================================================
-
-st.header("📌 About the System")
-
-
-st.write(
-    """
-    Online learning platforms collect large amounts of student activity data,
-    but identifying students at risk of non-completion early remains a challenge.
-
-    ElimuPulse uses machine learning to analyse:
-
-    • Student characteristics
-    • Learning behaviour
-    • Course engagement
-    • Assessment performance
-    • Payment information
-
-    The goal is to support educators and institutions in providing timely
-    support to students who may be at risk.
-    """
-)
-
-
-
 # =====================================================
 # DATASET INFORMATION
 # =====================================================
 
 st.header("📊 Dataset Information")
 
-
-st.write(
-    """
-    The machine learning model was trained using:
-
-    **100,000 student records** obtained from Kaggle.
-
-    The dataset contains information from several categories:
-    """
-)
-
-
-col1, col2, col3 = st.columns(3)
-
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-
-    st.markdown(
-        """
-        ### 👤 Student Information
-
-        - Age
-        - Gender
-        - Education Level
-        - Employment Status
-        """
+    st.metric(
+        "Student Records",
+        "100,000"
     )
-
 
 with col2:
-
-    st.markdown(
-        """
-        ### 📈 Learning Behaviour
-
-        - Login Frequency
-        - Video Completion Rate
-        - Progress Percentage
-        - Time Spent Hours
-        - Days Since Last Login
-        """
+    st.metric(
+        "Features",
+        "40"
     )
-
 
 with col3:
-
-    st.markdown(
-        """
-        ### 📚 Course & Performance
-
-        - Course Category
-        - Course Level
-        - Quiz Scores
-        - Assignments
-        - Payment Information
-        """
+    st.metric(
+        "Prediction Target",
+        "Completion"
     )
 
+with col4:
+    st.metric(
+        "Data Type",
+        "Learning Data"
+    )
+
+
+st.caption(
+    "Source: Publicly available Kaggle learning dataset containing student "
+    "engagement, performance, and course-related information."
+)
 
 
 # =====================================================
