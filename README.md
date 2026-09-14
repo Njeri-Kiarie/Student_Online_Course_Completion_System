@@ -112,6 +112,8 @@ Train and compare multiple classification models, including:
 - Logistic Regression
 - Decision Tree
 - Random Forest
+- XGBoost
+- KNN
 
 ### 5. Model Evaluation
 Evaluate model performance using:
