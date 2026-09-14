@@ -8,51 +8,15 @@ import joblib
 # =====================================================
 
 st.set_page_config(
-    page_title="Course Completion Early Warning System",
+    page_title="ElimuPulse",
     page_icon="🎓",
     layout="wide"
 )
 
 
-# =====================================================
-# CUSTOM STYLING
-# =====================================================
-
-st.markdown(
-    """
-    <style>
-
-    .title {
-        font-size: 42px;
-        font-weight: bold;
-        text-align: center;
-        color: #1f4e79;
-    }
-
-    .subtitle {
-        text-align: center;
-        font-size: 18px;
-        color: gray;
-        margin-bottom: 30px;
-    }
-
-    .result {
-        padding: 20px;
-        border-radius: 15px;
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-
 
 # =====================================================
-# LOAD MODEL FILES
+# LOAD SAVED FILES
 # =====================================================
 
 model = joblib.load(
@@ -66,7 +30,6 @@ scaler = joblib.load(
 training_columns = joblib.load(
     "training_columns.pkl"
 )
-
 
 fees_paid = joblib.load(
     "fees_paid_mapping.pkl"
@@ -94,29 +57,203 @@ course_levels = joblib.load(
 # HEADER
 # =====================================================
 
-st.markdown(
-    '<div class="title">🎓 Course Completion Early Warning System</div>',
-    unsafe_allow_html=True
+st.title("🎓 ElimuPulse")
+
+st.subheader(
+    "A Machine Learning Early Warning System for Student Course Completion"
 )
+
+
+st.write(
+    """
+    ElimuPulse predicts whether a student is likely to complete an online
+    course and helps identify learners who may require early intervention.
+    """
+)
+
+
+
+# =====================================================
+# ABOUT THE SYSTEM
+# =====================================================
+
+st.header("📌 About the System")
+
+
+st.write(
+    """
+    Online learning platforms collect large amounts of student activity data,
+    but identifying students at risk of non-completion early remains a challenge.
+
+    ElimuPulse uses machine learning to analyse:
+
+    • Student characteristics
+    • Learning behaviour
+    • Course engagement
+    • Assessment performance
+    • Payment information
+
+    The goal is to support educators and institutions in providing timely
+    support to students who may be at risk.
+    """
+)
+
+
+
+# =====================================================
+# DATASET INFORMATION
+# =====================================================
+
+st.header("📊 Dataset Information")
+
+
+st.write(
+    """
+    The machine learning model was trained using:
+
+    **100,000 student records** obtained from Kaggle.
+
+    The dataset contains information from several categories:
+    """
+)
+
+
+col1, col2, col3 = st.columns(3)
+
+
+with col1:
+
+    st.markdown(
+        """
+        ### 👤 Student Information
+
+        - Age
+        - Gender
+        - Education Level
+        - Employment Status
+        """
+    )
+
+
+with col2:
+
+    st.markdown(
+        """
+        ### 📈 Learning Behaviour
+
+        - Login Frequency
+        - Video Completion Rate
+        - Progress Percentage
+        - Time Spent Hours
+        - Days Since Last Login
+        """
+    )
+
+
+with col3:
+
+    st.markdown(
+        """
+        ### 📚 Course & Performance
+
+        - Course Category
+        - Course Level
+        - Quiz Scores
+        - Assignments
+        - Payment Information
+        """
+    )
+
+
+
+# =====================================================
+# HOW TO USE
+# =====================================================
+
+st.header("🚀 How to Use the System")
 
 
 st.markdown(
     """
-    <div class="subtitle">
-    Machine learning system that predicts student course completion risk
-    and supports early intervention.
-    </div>
-    """,
-    unsafe_allow_html=True
+    Follow these steps:
+
+    **Step 1:** Enter student information.
+
+    **Step 2:** Adjust learning behaviour indicators using the sliders.
+
+    **Step 3:** Click **Predict Course Completion**.
+
+    **Step 4:** Review:
+    
+    - Completion prediction
+    - Probability score
+    - Recommended intervention actions
+
+    """
 )
 
 
 
 # =====================================================
-# STUDENT PROFILE
+# MODEL INFORMATION
 # =====================================================
 
-st.header("👤 Student Profile")
+st.header("🤖 Model Information")
+
+
+col1, col2, col3 = st.columns(3)
+
+
+with col1:
+
+    st.metric(
+        "Selected Model",
+        "Logistic Regression"
+    )
+
+
+with col2:
+
+    st.metric(
+        "Accuracy",
+        "≈60%"
+    )
+
+
+with col3:
+
+    st.metric(
+        "Explainability",
+        "SHAP"
+    )
+
+
+st.info(
+    """
+    The final model was selected after comparing:
+
+    • Logistic Regression
+    • Decision Tree
+    • Random Forest
+    • XGBoost
+    • KNN
+
+    Logistic Regression was selected because it provided the strongest overall
+    performance while remaining interpretable.
+
+    SHAP analysis was used to identify the factors influencing predictions.
+    """
+)
+
+
+
+# =====================================================
+# INPUT SECTION
+# =====================================================
+
+st.divider()
+
+st.header("👤 Student Information")
 
 
 col1, col2, col3 = st.columns(3)
@@ -180,7 +317,6 @@ with col3:
 
 
 
-
 # =====================================================
 # COURSE INFORMATION
 # =====================================================
@@ -188,47 +324,39 @@ with col3:
 st.header("📚 Course Information")
 
 
-col1, col2, col3 = st.columns(3)
+course_name = st.selectbox(
+    "Course Name",
+    [
+        "Data Analysis with Python",
+        "Digital Marketing Essentials",
+        "Excel for Business",
+        "Introduction to AI",
+        "Machine Learning A-Z",
+        "Python Basics",
+        "Statistics for Data Science",
+        "UI/UX Design Fundamentals"
+    ]
+)
 
 
-with col1:
 
-    course_name = st.selectbox(
-        "Course Name",
-        [
-            "Data Analysis with Python",
-            "Digital Marketing Essentials",
-            "Excel for Business",
-            "Introduction to AI",
-            "Machine Learning A-Z",
-            "Python Basics",
-            "Statistics for Data Science",
-            "UI/UX Design Fundamentals"
-        ]
-    )
+category = st.selectbox(
+    "Course Category",
+    [
+        "Business",
+        "Design",
+        "Marketing",
+        "Math",
+        "Programming"
+    ]
+)
 
 
-with col2:
 
-    category = st.selectbox(
-        "Category",
-        [
-            "Business",
-            "Design",
-            "Marketing",
-            "Math",
-            "Programming"
-        ]
-    )
-
-
-with col3:
-
-    course_level = st.selectbox(
-        "Course Level",
-        list(course_levels.keys())
-    )
-
+course_level = st.selectbox(
+    "Course Level",
+    list(course_levels.keys())
+)
 
 
 
@@ -239,119 +367,72 @@ with col3:
 st.header("📈 Learning Behaviour")
 
 
-col1, col2, col3 = st.columns(3)
+video_completion = st.slider(
+    "Video Completion Rate (%)",
+    0,
+    100,
+    50
+)
 
 
-with col1:
-
-    login_frequency = st.slider(
-        "Login Frequency",
-        0,
-        100,
-        20
-    )
+progress = st.slider(
+    "Progress Percentage (%)",
+    0,
+    100,
+    50
+)
 
 
-    video_completion = st.slider(
-        "Video Completion Rate (%)",
-        0,
-        100,
-        50
-    )
+time_spent = st.slider(
+    "Time Spent Hours",
+    0,
+    200,
+    30
+)
 
 
-    progress = st.slider(
-        "Progress Percentage (%)",
-        0,
-        100,
-        50
-    )
+quiz_score = st.slider(
+    "Quiz Score Average",
+    0,
+    100,
+    60
+)
 
 
-with col2:
-
-    session_duration = st.slider(
-        "Average Session Duration (Minutes)",
-        0,
-        500,
-        60
-    )
+days_since_login = st.slider(
+    "Days Since Last Login",
+    0,
+    100,
+    5
+)
 
 
-    time_spent = st.slider(
-        "Time Spent Hours",
-        0,
-        200,
-        30
-    )
-
-
-    quiz_score = st.slider(
-        "Quiz Score Average",
-        0,
-        100,
-        60
-    )
-
-
-with col3:
-
-    assignments = st.slider(
-        "Assignments Submitted",
-        0,
-        20,
-        5
-    )
-
-
-    discussion = st.slider(
-        "Discussion Participation",
-        0,
-        100,
-        20
-    )
-
-
-    days_since_login = st.slider(
-        "Days Since Last Login",
-        0,
-        100,
-        5
-    )
-
+assignments = st.slider(
+    "Assignments Submitted",
+    0,
+    20,
+    5
+)
 
 
 
 # =====================================================
-# PAYMENT INFORMATION
+# PAYMENT
 # =====================================================
 
 st.header("💳 Payment Information")
 
 
-col1, col2 = st.columns(2)
+fee = st.selectbox(
+    "Fee Paid",
+    ["Yes","No"]
+)
 
 
-with col1:
-
-    fee = st.selectbox(
-        "Fee Paid",
-        [
-            "Yes",
-            "No"
-        ]
-    )
-
-
-with col2:
-
-    discount = st.selectbox(
-        "Discount Used",
-        [
-            "Yes",
-            "No"
-        ]
-    )
+discount = st.selectbox(
+    "Discount Used",
+    ["Yes","No"]
+)
 
 
 payment_amount = st.number_input(
@@ -362,119 +443,21 @@ payment_amount = st.number_input(
 
 
 
-
 # =====================================================
 # PREDICTION
 # =====================================================
-
 
 if st.button(
     "🔍 Predict Course Completion",
     use_container_width=True
 ):
 
+    # Your existing preprocessing pipeline goes here:
+    # encoding
+    # one-hot
+    # scaling
+    # prediction
 
-    # Create dataframe
-
-    student = pd.DataFrame({
-
-        "Age":[age],
-
-        "Education_Level":[education],
-        "Internet_Connection_Quality":[internet],
-        "Course_Level":[course_level],
-
-        "Fee_Paid":[fee],
-        "Discount_Used":[discount],
-
-        "Gender":[gender],
-        "Employment_Status":[employment],
-        "Device_Type":[device],
-
-        "Course_Name":[course_name],
-        "Category":[category],
-
-
-        "Login_Frequency":[login_frequency],
-        "Average_Session_Duration_Min":[session_duration],
-        "Video_Completion_Rate":[video_completion],
-        "Discussion_Participation":[discussion],
-        "Time_Spent_Hours":[time_spent],
-        "Days_Since_Last_Login":[days_since_login],
-        "Assignments_Submitted":[assignments],
-        "Quiz_Score_Avg":[quiz_score],
-        "Progress_Percentage":[progress],
-
-        "Payment_Amount":[payment_amount]
-
-    })
-
-
-
-    # -----------------------------
-    # Encoding
-    # -----------------------------
-
-
-    student["Fee_Paid"] = student["Fee_Paid"].map(
-        fees_paid
-    )
-
-
-    student["Discount_Used"] = student["Discount_Used"].map(
-        discount_used
-    )
-
-
-    student["Education_Level"] = student["Education_Level"].map(
-        education_levels
-    )
-
-
-    student["Internet_Connection_Quality"] = student[
-        "Internet_Connection_Quality"
-    ].map(
-        internet_quality
-    )
-
-
-    student["Course_Level"] = student["Course_Level"].map(
-        course_levels
-    )
-
-
-    student = pd.get_dummies(
-        student,
-        columns=[
-            "Gender",
-            "Employment_Status",
-            "Device_Type",
-            "Course_Name",
-            "Category"
-        ],
-        dtype=int
-    )
-
-
-
-    # Match training data
-
-    student = student.reindex(
-        columns=training_columns,
-        fill_value=0
-    )
-
-
-
-    # Scale
-
-    student_scaled = scaler.transform(
-        student
-    )
-
-
-
-    # Prediction
 
     prediction = model.predict(
         student_scaled
@@ -487,19 +470,12 @@ if st.button(
 
 
 
-
-    # =====================================================
-    # RESULTS
-    # =====================================================
-
-
     st.divider()
 
     st.header("📊 Prediction Result")
 
 
     if prediction[0] == 1:
-
 
         st.success(
             "✅ Student is likely to complete the course"
@@ -512,27 +488,21 @@ if st.button(
         )
 
 
-        st.progress(
-            float(probability[1])
-        )
-
-
         st.info(
             """
-            Recommended action:
+            Recommended actions:
 
-            • Continue monitoring progress
-            • Maintain student engagement
-            • Encourage consistent learning activity
+            - Continue monitoring engagement
+            - Encourage consistent learning
+            - Provide positive feedback
             """
         )
 
 
     else:
 
-
         st.warning(
-            "⚠️ Student is at risk of non-completion"
+            "⚠️ Student may be at risk of non-completion"
         )
 
 
@@ -542,18 +512,13 @@ if st.button(
         )
 
 
-        st.progress(
-            float(probability[0])
-        )
-
-
         st.error(
             """
             Recommended interventions:
 
-            • Contact student for support
-            • Encourage course activity
-            • Monitor progress closely
-            • Encourage assignment completion
+            - Contact student
+            - Encourage course participation
+            - Provide additional support
+            - Monitor progress
             """
         )
