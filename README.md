@@ -22,7 +22,28 @@ The objective of this project is to build a predictive machine learning model th
 
 The dataset contains **100,000 student records** with **40 features** describing student demographics, engagement, learning behavior, assessments, and course characteristics.
 
-### Key Features
+## Research Questions
+
+This project is guided by the following research questions:
+
+1. **Can student engagement and learning behavior be used to accurately predict whether a student will complete an online course?**
+
+2. **Which factors are the strongest predictors of course completion?**
+   - For example, are features such as login frequency, video completion rate, progress percentage, or assignment submission more influential than demographic characteristics?
+
+3. **How does student engagement influence the likelihood of course completion?**
+   - Does increased participation in learning activities lead to higher completion rates?
+
+4. **How do assessment performance and learning progress impact course completion?**
+   - Are students with higher quiz scores, project grades, and assignment completion rates more likely to finish their courses?
+
+5. **Which machine learning classification model provides the best predictive performance for this problem?**
+   - The project will compare multiple models to determine the most effective approach for predicting course completion.
+
+6. **How can the insights from the predictive model support EdTech platforms in improving student retention and course completion rates?**
+   - What actionable recommendations can be derived to help educators and platform administrators intervene early and support at-risk learners?
+
+## Key Features
 
 ### Student Information
 - Age
