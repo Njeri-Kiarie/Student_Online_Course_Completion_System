@@ -60,8 +60,8 @@ The dataset contains **100,000 student records** with **40 features** describing
 
 ### Target Variable
 - **Completed**
-  - Completed
-  - Not Completed
+  - Completed - `1`
+  - Not Completed - `0`
 
 ---
 
