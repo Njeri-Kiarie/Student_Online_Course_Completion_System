@@ -72,49 +72,10 @@ st.write(
 )
 
 # =====================================================
-# DATASET INFORMATION
-# =====================================================
-
-st.header("📊 Dataset Information")
-
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    st.metric(
-        "Student Records",
-        "100,000"
-    )
-
-with col2:
-    st.metric(
-        "Features",
-        "40"
-    )
-
-with col3:
-    st.metric(
-        "Prediction Target",
-        "Completion"
-    )
-
-with col4:
-    st.metric(
-        "Data Type",
-        "Learning Data"
-    )
-
-
-st.caption(
-    "Source: Publicly available Kaggle learning dataset containing student "
-    "engagement, performance, and course-related information."
-)
-
-
-# =====================================================
 # HOW TO USE
 # =====================================================
 
-st.header("🚀 How to Use the System")
+st.header("How to Use the System")
 
 
 st.markdown(
@@ -135,60 +96,6 @@ st.markdown(
 
     """
 )
-
-
-
-# =====================================================
-# MODEL INFORMATION
-# =====================================================
-
-st.header("🤖 Model Information")
-
-
-col1, col2, col3 = st.columns(3)
-
-
-with col1:
-
-    st.metric(
-        "Selected Model",
-        "Logistic Regression"
-    )
-
-
-with col2:
-
-    st.metric(
-        "Accuracy",
-        "≈60%"
-    )
-
-
-with col3:
-
-    st.metric(
-        "Explainability",
-        "SHAP"
-    )
-
-
-st.info(
-    """
-    The final model was selected after comparing:
-
-    • Logistic Regression
-    • Decision Tree
-    • Random Forest
-    • XGBoost
-    • KNN
-
-    Logistic Regression was selected because it provided the strongest overall
-    performance while remaining interpretable.
-
-    SHAP analysis was used to identify the factors influencing predictions.
-    """
-)
-
 
 
 # =====================================================
@@ -391,17 +298,84 @@ payment_amount = st.number_input(
 # PREDICTION
 # =====================================================
 
-if st.button(
-    "🔍 Predict Course Completion",
-    use_container_width=True
-):
+if st.button("🔍 Predict Course Completion"):
 
-    # Your existing preprocessing pipeline goes here:
-    # encoding
-    # one-hot
-    # scaling
-    # prediction
+    # 1. Create input dataframe
+    student = pd.DataFrame({
+        "Age": [age],
+        "Education_Level": [education],
+        "Internet_Connection_Quality": [internet],
+        "Course_Level": [course_level],
+        "Fee_Paid": [fee],
+        "Discount_Used": [discount],
+        "Gender": [gender],
+        "Employment_Status": [employment],
+        "Device_Type": [device],
+        "Course_Name": [course_name],
+        "Category": [category],
+        "Video_Completion_Rate": [video_completion],
+        "Progress_Percentage": [progress],
+        "Time_Spent_Hours": [time_spent],
+        "Quiz_Score_Avg": [quiz_score],
+        "Days_Since_Last_Login": [days_since_login],
+        "Assignments_Submitted": [assignments],
+        "Payment_Amount": [payment_amount]
+    })
 
+
+    # 2. Apply encodings
+
+    student["Fee_Paid"] = student["Fee_Paid"].map(
+        fees_paid
+    )
+
+    student["Discount_Used"] = student["Discount_Used"].map(
+        discount_used
+    )
+
+    student["Education_Level"] = student["Education_Level"].map(
+        education_levels
+    )
+
+    student["Internet_Connection_Quality"] = student[
+        "Internet_Connection_Quality"
+    ].map(
+        internet_quality
+    )
+
+    student["Course_Level"] = student["Course_Level"].map(
+        course_levels
+    )
+
+
+    # 3. One-hot encoding
+
+    student = pd.get_dummies(
+        student,
+        columns=[
+            "Gender",
+            "Employment_Status",
+            "Device_Type",
+            "Course_Name",
+            "Category"
+        ],
+        dtype=int
+    )
+
+
+    # 4. Match training columns
+
+    student = student.reindex(
+        columns=training_columns,
+        fill_value=0
+    )
+
+
+    # 5. Scale
+
+    student_scaled = scaler.transform(
+        student
+    ) 
 
     prediction = model.predict(
         student_scaled
