@@ -1,4 +1,4 @@
-# Machine_Learning_Capstone_Project
+# Student_Online_Course_Completion
 
 # Predicting Student Course Completion in Online Learning Platforms.
 
